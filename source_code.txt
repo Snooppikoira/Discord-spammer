@@ -1,0 +1,52 @@
+@echo off
+chcp 65001
+title .Wesley - Discord Spammer
+color 0B
+
+:menu
+cls
+:: Background frame
+echo.
+echo  ██████╗ ███████╗ █████╗ ███╗   ███╗
+echo ██╔═══██╗██╔════╝██╔══██╗████╗ ████║
+echo ██║   ██║█████╗  ███████║██╔████╔██║
+echo ██║   ██║██╔══╝  ██╔══██║██║╚██╔╝██║
+echo ╚██████╔╝██║     ██║  ██║██║ ╚═╝ ██║
+echo  ╚═════╝ ╚═╝     ╚═╝  ╚═╝╚═╝     ╚═╝
+echo Discord spammer
+echo ═══════════════
+echo 1. Exit
+echo 2. Open Discord webhook message sender
+echo.
+set /p choice=║ Select an option (1 or 2): 
+
+if "%choice%"=="1" goto :eof
+if "%choice%"=="2" goto messagesender
+goto menu
+
+:messagesender
+cls
+:: Webhook settings frame
+echo.
+echo Settings
+echo ════════
+set /p "webhook=║ Enter Discord webhook URL: "
+set /p "message=║ Enter the message to send: "
+set /p "num_times=║ Enter the number of times to send the message: "
+
+echo Sending...
+echo ══════════
+echo.
+
+:: Sends messages quickly without delay
+for /l %%n in (1,1,%num_times%) do (
+    echo Sending message %%n of %num_times%: %message%
+    curl -X POST -H "Content-Type: application/json" -d "{\"content\": \"%message%\"}" %webhook%
+)
+
+:: Completion frame
+echo.
+echo Sended!
+echo ═══════
+pause
+goto menu
